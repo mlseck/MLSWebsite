@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MlsPortfolioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="userpwd" Type="binary" MaxLength="64" Nullable="false" />
+          <Property Name="useremail" Type="varchar" MaxLength="100" />
+          <Property Name="firstName" Type="varchar" MaxLength="100" />
+          <Property Name="lastName" Type="varchar" MaxLength="100" />
+          <Property Name="salt" Type="uniqueidentifier" />
+        </EntityType>
+        <Function Name="uspAddUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pLogin" Type="nvarchar" Mode="In" />
+          <Parameter Name="pPassword" Type="nvarchar" Mode="In" />
+          <Parameter Name="pFirstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pLastName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pEmail" Type="nvarchar" Mode="In" />
+          <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="uspLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pLoginName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pPassword" Type="nvarchar" Mode="In" />
+          <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="MlsPortfolioModelStoreContainer">
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MlsPortfolioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userpwd" Type="Binary" MaxLength="64" FixedLength="true" Nullable="false" />
+          <Property Name="useremail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="firstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="lastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="salt" Type="Guid" />
+        </EntityType>
+        <EntityContainer Name="MlsPortfolioEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="users" EntityType="Self.user" />
+          <FunctionImport Name="uspAddUser">
+            <Parameter Name="pLogin" Mode="In" Type="String" />
+            <Parameter Name="pPassword" Mode="In" Type="String" />
+            <Parameter Name="pFirstName" Mode="In" Type="String" />
+            <Parameter Name="pLastName" Mode="In" Type="String" />
+            <Parameter Name="pEmail" Mode="In" Type="String" />
+            <Parameter Name="responseMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="uspLogin">
+            <Parameter Name="pLoginName" Mode="In" Type="String" />
+            <Parameter Name="pPassword" Mode="In" Type="String" />
+            <Parameter Name="responseMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MlsPortfolioModelStoreContainer" CdmEntityContainer="MlsPortfolioEntities">
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="MlsPortfolioModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="userpwd" ColumnName="userpwd" />
+                <ScalarProperty Name="useremail" ColumnName="useremail" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="salt" ColumnName="salt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="uspAddUser" FunctionName="MlsPortfolioModel.Store.uspAddUser" />
+          <FunctionImportMapping FunctionImportName="uspLogin" FunctionName="MlsPortfolioModel.Store.uspLogin" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

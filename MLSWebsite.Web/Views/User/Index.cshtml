@@ -1,0 +1,8 @@
+﻿@model MLSWebsite.Web.Models.UserViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@Html.DropDownListFor(m => m.selectedUserId, Model.userList);
